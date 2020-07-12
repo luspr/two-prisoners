@@ -1,2 +1,2 @@
-# two-prisoners
+# Two Prisoners
 Two prisoners were sentenced to death... 
