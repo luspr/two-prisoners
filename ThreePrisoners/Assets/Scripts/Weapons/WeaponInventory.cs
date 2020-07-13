@@ -48,20 +48,25 @@ public class WeaponInventory : MonoBehaviour
 
     public bool GatherDrop(int weapID)
     {
-        if (!weaponsEquipped.Contains(weapID) && (weaponsEquipped.Count < maxWeaponsEquipped) && !weaponDropsLocked)
+        if (!isDead)
         {
-            weaponsEquipped.Add(weapID);
-            return true;
+            if (!weaponsEquipped.Contains(weapID) && (weaponsEquipped.Count < maxWeaponsEquipped) && !weaponDropsLocked)
+            {
+                weaponsEquipped.Add(weapID);
+                return true;
+            }
         }
         return false;
     }
 
     public int LoseWeapon()
     {
-        lostWeapon = true;  //this bool makes sure that lost weapon gameObject is being destroyed
+        // lostWeapon = true;  //this bool makes sure that lost weapon gameObject is being destroyed
+        DestroyActiveWeapon();
+
         if (weaponsEquipped.Count > 1)
         {
-            StartCoroutine(WeaponDropsLocked());                                   //lock drops so there will be no instant recovering the lost weapon
+            // StartCoroutine(WeaponDropsLocked());                                   //lock drops so there will be no instant recovering the lost weapon
 
             int rnd = Random.Range(0, weaponsEquipped.Count);     //determine random number for weapon to be removed
             int rmvdID = weaponsEquipped[rnd];

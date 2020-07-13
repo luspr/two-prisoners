@@ -42,6 +42,11 @@ public class Health : MonoBehaviour
         currentHealthPoints = healthValue;
     }
 
+    public void ResetHealth()
+    {
+        currentHealthPoints = maxHealthPoints;
+    }
+
     public void TakeDamage(int damage)
     {
         if (currentHealthPoints <= 0)
@@ -51,7 +56,7 @@ public class Health : MonoBehaviour
         currentHealthPoints -= damage;
         if (currentHealthPoints <= 0)
         {
-            rspwn.NotifyDeath();          //notify observer
+            rspwn.NotifyDeath(transform.gameObject);          //notify observer
         }
 
     }

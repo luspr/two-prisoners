@@ -1,83 +1,73 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Assertions;
+using UserInput;
 
 public class RespawnManager : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject[] player;
+    private GameObject[] players;
+
     [SerializeField]
-    private int[] respawnDuration;
-    [SerializeField]
-    private Vector3[] respawnLocation;
-    [SerializeField]
-    private bool[] isPlayer;
+    private float RespawnCooldownTime;
 
     private List<Health> healthScript = new List<Health>();
 
     void Start()
     {
         
-        foreach (GameObject element in player)
+        foreach (GameObject element in players)
         {
             healthScript.Add(element.GetComponent<Health>());       //store all health scripts in array
         }
 
-        if ((respawnDuration.Length != player.Length) || (respawnLocation.Length != player.Length)||(player.Length != isPlayer.Length))
-        {
-            Debug.LogError("Respawn Manager: Invalid parameter sizes for serialized fields.");  //error handling
-        }
-
     }
 
-    public void NotifyDeath()
+    public void NotifyDeath(GameObject dyingAgent)
     {
-        int count = 0;
-        foreach (Health element in healthScript)
-        {
-            int currentHealth = element.GetCurrentHealth();      //determine dying object TODO: get this to work without having to look for specific object
-            if (currentHealth <= 0)
-            {
-                StartCoroutine(Die(count));          //death, pointing to appropriate player
-            }
-            count++;
-        }
+           
+        StartCoroutine(Die(dyingAgent));          //death, pointing to appropriate player
+     
+      
     }
 
-    private IEnumerator Die(int index)
+    private void setComponents(GameObject agent, bool enabled)
     {
-        GameObject playr = player[index];                       //retrieve appropriate GameObject from List
-        WeaponInventory weaponScript;
-        MonoBehaviour movementScript;
-        MonoBehaviour falldownScript;
-
-        if (isPlayer[index])
+        AgentInformation agentInfo = agent.GetComponent<AgentInformation>();
+        if (agentInfo.IsPlayer)
         {
-            weaponScript = playr.GetComponent<WeaponInventory>();
-            movementScript = playr.GetComponent<Movement>();
-            falldownScript = playr.GetComponent<FallDown>();
+            agent.GetComponent<Attack>().enabled = enabled;
+            agent.GetComponent<Movement>().enabled = enabled;
+            agent.GetComponent<FallDown>().enabled = enabled;
         }
         else
         {
-            weaponScript = playr.GetComponent<WeaponInventory>();
-            movementScript = playr.GetComponent<Bot>();
-            falldownScript = playr.GetComponent<AISimpleAttack>();
+            // Disable NavMesh, AISimpleAttack
+            agent.GetComponent<AISimpleAttack>().enabled = enabled;
+            agent.GetComponent<NavMeshAgent>().enabled = enabled;
         }
+        agent.GetComponent<WeaponInventory>().enabled = enabled;
+    }
 
+    private IEnumerator Die(GameObject dyingAgent)
+    {
+        AgentInformation agentInfo = dyingAgent.GetComponent<AgentInformation>();
+
+        WeaponInventory weaponScript = dyingAgent.GetComponent<WeaponInventory>();
         int lostWeapon = weaponScript.LoseWeapon();     //lose one weapon at random
         if (lostWeapon > -1)
         {
-            GetComponent<WeaponDropManager>().CreateDrop(playr.transform, lostWeapon);        //create weapon drop close to player transform
+            GetComponent<WeaponDropManager>().CreateDrop(dyingAgent.transform, lostWeapon);        //create weapon drop close to player transform
         }
 
-        //disable actions
-        movementScript.enabled = false;
-        falldownScript.enabled = false;
         weaponScript.SetDead(true);
+        setComponents(dyingAgent, false);
 
-
-        Animator animator = playr.GetComponentInChildren<Animator>();
+        Animator animator = dyingAgent.GetComponentInChildren<Animator>();
         int dieHash = Animator.StringToHash("DeathFromFront");
 
         // Play
@@ -93,28 +83,23 @@ public class RespawnManager : MonoBehaviour
         float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(waitTime);
 
-        //Wait for respawn
-        float respawnTime = respawnDuration[index];     //retrieve appropriate respawn duration
-        yield return new WaitForSeconds(respawnTime);
+        yield return new WaitForSeconds(agentInfo.TimeToRespawn);
+
 
         //respawn
-
 
         //reset position, animator, health
         animator.ResetTrigger("Die");
         animator.SetTrigger("Respawn");
-        playr.transform.position = respawnLocation[index];
+        dyingAgent.transform.position = agentInfo.SpawnLocation;
 
-        //enable actions
-        movementScript.enabled = true;
-        falldownScript.enabled = true;
+        yield return new WaitForSeconds(RespawnCooldownTime);
+        setComponents(dyingAgent, true);
+
         weaponScript.InstantiateActiveWeapon();
         weaponScript.SetDead(false);
 
-
-
-        healthScript[index].SetHealth(healthScript[index].GetMaxHealth());     //set health back to max health
-
+        dyingAgent.GetComponent<Health>().ResetHealth();
 
         yield break;
     }

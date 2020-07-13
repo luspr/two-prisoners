@@ -45282,6 +45282,21 @@ MonoBehaviour:
   - {fileID: 476578423}
   Retreat: {fileID: 3697012}
   TargetDistance: 5
+--- !u!114 &1786959000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786958998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc9d049439018648b5948447545354b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayer: 0
+  TimeToRespawn: 5
+  SpawnLocation: {x: -30, y: 0, z: 13}
 --- !u!114 &1786959006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47994,6 +48009,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
+--- !u!114 &1799230810835694615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799230810835694612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc9d049439018648b5948447545354b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayer: 1
+  TimeToRespawn: 5
+  SpawnLocation: {x: 13, y: 0, z: 10}
 --- !u!114 &1799230810835694621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48230,6 +48260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3957057668907133861, guid: 500f3de378e57df4ba92906da8d60b54,
         type: 3}
+      propertyPath: players.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957057668907133861, guid: 500f3de378e57df4ba92906da8d60b54,
+        type: 3}
       propertyPath: player.Array.data[0]
       value: 
       objectReference: {fileID: 1799230810835694612}
@@ -48242,6 +48277,21 @@ PrefabInstance:
         type: 3}
       propertyPath: isPlayer.Array.data[0]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957057668907133861, guid: 500f3de378e57df4ba92906da8d60b54,
+        type: 3}
+      propertyPath: players.Array.data[0]
+      value: 
+      objectReference: {fileID: 1799230810835694612}
+    - target: {fileID: 3957057668907133861, guid: 500f3de378e57df4ba92906da8d60b54,
+        type: 3}
+      propertyPath: players.Array.data[1]
+      value: 
+      objectReference: {fileID: 873957507}
+    - target: {fileID: 3957057668907133861, guid: 500f3de378e57df4ba92906da8d60b54,
+        type: 3}
+      propertyPath: RespawnCooldownTime
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 500f3de378e57df4ba92906da8d60b54, type: 3}
