@@ -10,14 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98a5d305fab33bf449f2940fd631a3a3, type: 3}
-  m_Name: JumpAndSpeedBoost
+  m_Name: DamageBuff
   m_EditorClassIdentifier: 
-  additiveModifiers:
-  - attributeType: 0
-    value: 5
-  - attributeType: 1
-    value: 5
+  additiveModifiers: []
   multiplicativeModifiers: []
   temporary: 0
-  duration: 20
-  powerUpName: jeff
+  duration: 0
+  powerUpName: 

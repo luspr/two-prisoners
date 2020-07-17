@@ -35,6 +35,8 @@ public class Bot : MonoBehaviour
 
         AIRetreatToSecureLocation retreatState = new AIRetreatToSecureLocation(gameObject, Retreat);
 
+        AIWaitForRespawn deathState = new AIWaitForRespawn(gameObject);
+
         // Define Transitions.
         TransitionStatePair patrollingToRetreat;
         patrollingToRetreat.state = retreatState;
@@ -44,25 +46,40 @@ public class Bot : MonoBehaviour
         patrollingToRetreatLowHealth.state = retreatState;
         patrollingToRetreatLowHealth.transition = new LowHealthStateTransition(gameObject, 50);
 
+        TransitionStatePair patrollingToDeath;
+        patrollingToDeath.state = deathState;
+        patrollingToDeath.transition = new DeathStateTransition(gameObject);
+
         var patrollingStateSuccessors = new List<TransitionStatePair>()
         {
             patrollingToRetreat,
-            patrollingToRetreatLowHealth
+            patrollingToRetreatLowHealth,
+            patrollingToDeath,
         };
 
-        TransitionStatePair retreatNullTransitionPair;
-        retreatNullTransitionPair.transition = new NullTransition();
-        retreatNullTransitionPair.state = null;
+        TransitionStatePair retreatToDeath;
+        retreatToDeath.state = deathState;
+        retreatToDeath.transition = new DeathStateTransition(gameObject);
 
         var retreatStateSuccessors = new List<TransitionStatePair>()
         {
-            retreatNullTransitionPair
+            retreatToDeath
+        };
+
+        TransitionStatePair respawner;
+        respawner.state = patrollingState;
+        respawner.transition = new RespawnTransition(gameObject);
+
+        var deathStateSuccessors = new List<TransitionStatePair>()
+        {
+            respawner
         };
 
         var stateMapping = new Dictionary<AIState, List<TransitionStatePair>>()
         {
             [patrollingState] = patrollingStateSuccessors,
-            [retreatState] = retreatStateSuccessors
+            [retreatState] = retreatStateSuccessors,
+            [deathState] = deathStateSuccessors
         };
 
         stateMachine.Initialize(stateMapping, patrollingState);

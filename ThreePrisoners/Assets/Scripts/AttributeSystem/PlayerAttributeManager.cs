@@ -8,12 +8,15 @@ using UnityEngine;
 public class PlayerAttributeManager : MonoBehaviour
 {
     [SerializeField]
-    private float initialSpeed;
+    private float initialSpeed = 5f;
     [SerializeField]
-    private float initialJump;
+    private float initialJump = 15f;
+    [SerializeField]
+    private float initialDamage = 1f;
 
     public SpeedAttribute Speed { get; private set; }
     public JumpAttribute Jump { get; private set; }
+    public DmgAttribute WeaponDamage { get; private set; }
 
 
     private List<CharacterAttribute> attributes = new List<CharacterAttribute>();
@@ -24,10 +27,12 @@ public class PlayerAttributeManager : MonoBehaviour
     {
         Speed = new SpeedAttribute(initialSpeed);
         Jump = new JumpAttribute(initialJump);
+        WeaponDamage = new DmgAttribute(initialDamage);
 
         attributes = new List<CharacterAttribute>(){
             Speed,
-            Jump
+            Jump,
+            WeaponDamage
         };
         modifications = new List<AttributeModification>();
     }
@@ -40,6 +45,8 @@ public class PlayerAttributeManager : MonoBehaviour
                 return this.Jump;
             case AttributeEnum.Speed:
                 return this.Speed;
+            case AttributeEnum.WeaponDamage:
+                return this.WeaponDamage;
             default:
                 return null;
         }
