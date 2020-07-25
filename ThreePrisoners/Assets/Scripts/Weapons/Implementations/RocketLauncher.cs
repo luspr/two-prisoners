@@ -22,7 +22,7 @@ public class RocketLauncher : MonoBehaviour, IWeapon
         fireAudioSource = GetComponent<AudioSource>();
 
         nozzlePos = transform.GetChild(0);       //weapon nozzle
-        weaponDistance = Quaternion.Inverse(transform.rotation) * (nozzlePos.position - transform.position);     //distance between weapon and player transform in relative coordinates
+        weaponDistance = Quaternion.Inverse(transform.rotation) * (nozzlePos.position - transform.position);     //distance between weapon and player transformed in relative coordinates
         reloadTimer = 1f;
 
     }

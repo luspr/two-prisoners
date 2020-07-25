@@ -9,12 +9,13 @@ public abstract class AttributeModification
 {
 
     public string Name;
+    public bool isVolatile;
     protected List<ICharacterAttributeModifier> modifiers;
     protected PlayerAttributeManager attachedPlayerAttributeManager;
 
     public AttributeModification(string name)
     {
-        this.Name = name;
+        this.Name = name;   
     }
 
     public abstract bool IsActive();

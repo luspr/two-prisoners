@@ -57,6 +57,12 @@ public class RespawnManager : MonoBehaviour
     {
         AgentInformation agentInfo = dyingAgent.GetComponent<AgentInformation>();
 
+        if (agentInfo.IsPlayer)     //TODO: AI needs to make use of attributeManager as well
+        {
+            PlayerAttributeManager attributes = dyingAgent.GetComponent<PlayerAttributeManager>();
+            attributes.DeathResetModifications();      //remove modifications
+        }
+
         WeaponInventory weaponScript = dyingAgent.GetComponent<WeaponInventory>();
         int lostWeapon = weaponScript.LoseWeapon();     //lose one weapon at random
         if (lostWeapon > -1)
@@ -64,10 +70,13 @@ public class RespawnManager : MonoBehaviour
             GetComponent<WeaponDropManager>().CreateDrop(dyingAgent.transform, lostWeapon);        //create weapon drop close to player transform
         }
 
-        weaponScript.SetDead(true);
-        setComponents(dyingAgent, false);
+        
+        weaponScript.SetDead(true);         //inform weapon manager. TODO: this need to go in an overarching info script instead
+        setComponents(dyingAgent, false);   //disable scripts
 
-        Animator animator = dyingAgent.GetComponentInChildren<Animator>();
+
+        //death animation
+        Animator animator = dyingAgent.GetComponentInChildren<Animator>();  
         int dieHash = Animator.StringToHash("DeathFromFront");
 
         // Play
@@ -100,6 +109,11 @@ public class RespawnManager : MonoBehaviour
         weaponScript.SetDead(false);
 
         dyingAgent.GetComponent<Health>().ResetHealth();
+
+        if (agentInfo.IsPlayer)     //TODO: AI needs to make use of stamina as well
+        {
+            dyingAgent.GetComponent<Movement>().ReplenishStamina();
+        }
 
         yield break;
     }

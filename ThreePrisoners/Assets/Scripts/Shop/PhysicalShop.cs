@@ -9,7 +9,7 @@ public class PhysicalShop : MonoBehaviour, IInteractableObject
 
     public void OnInteract(Transform interactor)
     {
-        uiCanvas.GetComponent<UIShop>().PopUpShop();
+        uiCanvas.GetComponent<UIShop>().PopUpShop(interactor.gameObject);
 
     }
 }

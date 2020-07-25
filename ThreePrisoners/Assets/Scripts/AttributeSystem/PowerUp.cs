@@ -13,6 +13,7 @@ public class PowerUp : ScriptableObject
     public AttributeModifierValue[] additiveModifiers;
     public AttributeModifierValue[] multiplicativeModifiers;
     public bool temporary;
+    public bool isVolatile;
     public float duration;
     public string powerUpName;
 }

@@ -19,5 +19,6 @@ MonoBehaviour:
     value: 5
   multiplicativeModifiers: []
   temporary: 0
+  isVolatile: 1
   duration: 20
   powerUpName: jeff

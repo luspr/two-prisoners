@@ -141,6 +141,11 @@ public class Movement : MonoBehaviour
         return maxStamina;
     }
 
+    public void ReplenishStamina()
+    {
+        currentStamima = maxStamina;
+    }
+
     public IEnumerator RechargeStamina()
     {
         yield return new WaitForSeconds(1);

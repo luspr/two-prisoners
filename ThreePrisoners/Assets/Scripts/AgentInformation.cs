@@ -11,5 +11,7 @@ public class AgentInformation : MonoBehaviour
 
     public Vector3 SpawnLocation;
 
+    public int AgentID;
+
 
 }

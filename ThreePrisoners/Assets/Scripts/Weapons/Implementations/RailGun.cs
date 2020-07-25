@@ -40,7 +40,7 @@ public class RailGun : MonoBehaviour, IWeapon
     private float beamWidth;    
     private LineRenderer lr;
 
-    private ChargeState chargeState = ChargeState.Idle;    //0:ready to charge, 1:charging, 2:reloading
+    private ChargeState chargeState = ChargeState.Idle;   
     private float timer;
     private float intensity;
     private bool audioFlag;         //started playing charge audio

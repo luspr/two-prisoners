@@ -16,6 +16,7 @@ class AttributeModificationFactory
         {
             attributeModification = new PermanentAttributeModification(powerUp.powerUpName);
         }
+
         List<ICharacterAttributeModifier> modifiers = new List<ICharacterAttributeModifier>();
 
         foreach (AttributeModifierValue amv in powerUp.additiveModifiers)
@@ -33,6 +34,7 @@ class AttributeModificationFactory
             ));
         }
         attributeModification.SetModifierList(modifiers);
+        attributeModification.isVolatile = powerUp.isVolatile;
 
         return attributeModification;
     }

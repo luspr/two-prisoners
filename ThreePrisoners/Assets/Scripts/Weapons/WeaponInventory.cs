@@ -61,12 +61,11 @@ public class WeaponInventory : MonoBehaviour
 
     public int LoseWeapon()
     {
-        // lostWeapon = true;  //this bool makes sure that lost weapon gameObject is being destroyed
-        DestroyActiveWeapon();
+        lostWeapon = true;  //this bool makes sure that lost weapon gameObject is being switched away from
 
         if (weaponsEquipped.Count > 1)
         {
-            // StartCoroutine(WeaponDropsLocked());                                   //lock drops so there will be no instant recovering the lost weapon
+ 
 
             int rnd = Random.Range(0, weaponsEquipped.Count);     //determine random number for weapon to be removed
             int rmvdID = weaponsEquipped[rnd];
@@ -114,13 +113,6 @@ public class WeaponInventory : MonoBehaviour
     public int GetActiveWeaponID()
     {
         return activeWeaponID;
-    }
-
-    private IEnumerator WeaponDropsLocked()
-    {
-        weaponDropsLocked = true;
-        yield return new WaitForSeconds(10);
-        weaponDropsLocked = false;          //make sure that after losing a weapon there is no retaking the drop
     }
 
     public void DestroyActiveWeapon()

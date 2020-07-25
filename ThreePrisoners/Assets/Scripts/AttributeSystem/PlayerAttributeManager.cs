@@ -66,4 +66,15 @@ public class PlayerAttributeManager : MonoBehaviour
         modifications.Add(modification);
     }
 
+    public void DeathResetModifications()
+    {
+        foreach (AttributeModification mod in modifications){
+            if (mod.isVolatile)
+            {
+                mod.RemoveModificationFromCharacter();
+            }
+        }
+        modifications.RemoveAll(mod => mod.isVolatile);
+    }
+
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UserInput;
+
 
 public class UIShop : MonoBehaviour
 {
@@ -10,7 +12,6 @@ public class UIShop : MonoBehaviour
     private bool shopPopped = false;
 
     private List<Transform> activeShopInstances = new List<Transform>();
-    private GameObject player;
 
 
     public void Awake()
@@ -28,7 +29,7 @@ public class UIShop : MonoBehaviour
         // CreateItemButton(ShopItem.GetSprite(ShopItem.ItemType.RocketLauncher), "Rocket Launcher", ShopItem.GetCost(ShopItem.ItemType.RocketLauncher), 2);
     }
 
-    public void PopUpShop()
+    public void PopUpShop(GameObject player)
     {
         if (shopPopped == false)
         {
@@ -38,12 +39,12 @@ public class UIShop : MonoBehaviour
             shopPopped = true;
             //action handling
             Cursor.lockState = CursorLockMode.None;
-            //player.GetComponent<WeaponInventory>().enabled = false;
+            player.GetComponent<Attack>().enabled = false;
 
         }
     }
 
-    public void ExitShop()
+    public void ExitShop(GameObject player)
     {
         foreach (Transform display in activeShopInstances)
         {
@@ -54,7 +55,7 @@ public class UIShop : MonoBehaviour
         shopPopped = false;
         //action handling
         Cursor.lockState = CursorLockMode.Locked;
-        //player.GetComponent<WeaponInventory>().enabled = true;
+        player.GetComponent<Attack>().enabled = true;
 
 
     }
