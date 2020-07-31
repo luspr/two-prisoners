@@ -46,11 +46,11 @@ public class RespawnManager : MonoBehaviour
         }
         else
         {
-            // Disable NavMesh, AISimpleAttack
+            // Disable NavMesh, AISimpleAttack, stateMachine
             agent.GetComponent<AISimpleAttack>().enabled = enabled;
-            agent.GetComponent<NavMeshAgent>().enabled = enabled;
+            //agent.GetComponent<NavMeshAgent>().enabled = enabled;
         }
-        agent.GetComponent<WeaponInventory>().enabled = enabled;
+        //agent.GetComponent<WeaponInventory>().enabled = enabled;      //weaponInventory needs to be enable so to handle the drops and the deselection of the lost wpn
     }
 
     private IEnumerator Die(GameObject dyingAgent)

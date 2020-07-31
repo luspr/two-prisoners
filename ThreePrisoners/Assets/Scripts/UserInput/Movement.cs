@@ -44,7 +44,7 @@ public class Movement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
         currentStamima = maxStamina;
-        //playerAttributeManager = GetComponent<PlayerAttributeManager>();
+        playerAttributeManager = GetComponent<PlayerAttributeManager>();
     }
     // Update is called once per frame
     void Update()
@@ -83,7 +83,8 @@ public class Movement : MonoBehaviour
 
         if (characterController.isGrounded)
         {
-            float speed = 5;            //enter character modifier speed
+            float speed = playerAttributeManager.Speed.Value;            //enter character modifier speed
+            //float speed = 5;
             // Debug.Log("Speed " + speed);
             if (verticalMoveInput < 0)
             {
@@ -105,8 +106,8 @@ public class Movement : MonoBehaviour
 
             if (Input.GetButton("Jump"))
             {
-                //moveVector.y = playerAttributeManager.Jump.Value;
-                moveVector.y = 15;
+                moveVector.y = playerAttributeManager.Jump.Value;
+                //moveVector.y = 15;
                 animator.SetBool("IsJumping", true);
                 // animator.SetFloat("Jump", -moveVector.y);
             }
@@ -119,8 +120,8 @@ public class Movement : MonoBehaviour
         {
             // Now my feet don't touch the ground. 
             float y = moveVector.y;
-            moveVector = airControlSensitivity * sprintMultiplierTemp * verticalMoveInput * transform.forward;
-            moveVector += airControlSensitivity * sprintMultiplierTemp * horizontalMoveInput * transform.right;
+            moveVector = (playerAttributeManager.Speed.Value/5) * airControlSensitivity * sprintMultiplierTemp * verticalMoveInput * transform.forward;
+            moveVector += (playerAttributeManager.Speed.Value/5) * airControlSensitivity * sprintMultiplierTemp * horizontalMoveInput * transform.right;
             moveVector.y = y;
         }
         // Always apply gravity to ensure we stay grounded

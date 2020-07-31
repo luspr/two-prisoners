@@ -9,6 +9,7 @@ class PowerUpStation : MonoBehaviour, IInteractableObject
     public void OnInteract(Transform interactor)
     {
         var attributeManager = interactor.GetComponent<PlayerAttributeManager>();
+        
         if (attributeManager == null)
         {
             return;
